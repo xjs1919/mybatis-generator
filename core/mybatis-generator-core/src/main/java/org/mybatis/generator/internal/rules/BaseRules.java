@@ -1,5 +1,5 @@
 /*
- *    Copyright 2006-2020 the original author or authors.
+ *    Copyright 2006-2022 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -428,5 +428,44 @@ public abstract class BaseRules implements Rules {
     @Override
     public boolean generateJavaClient() {
         return !isModelOnly;
+    }
+
+    @Override
+    public boolean generateBatchUpdate() {
+        if (isModelOnly) {
+            return false;
+        }
+
+        if (ListUtilities.removeGeneratedAlwaysColumns(introspectedTable.getNonPrimaryKeyColumns()).isEmpty()) {
+            return false;
+        }
+
+        return introspectedTable.hasPrimaryKeyColumns();
+    }
+
+    @Override
+    public boolean generateBatchUpdateSelective() {
+        if (isModelOnly) {
+            return false;
+        }
+
+        if (ListUtilities.removeGeneratedAlwaysColumns(introspectedTable.getNonPrimaryKeyColumns()).isEmpty()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean generateBatchInsert() {
+        if (isModelOnly) {
+            return false;
+        }
+
+        if (ListUtilities.removeGeneratedAlwaysColumns(introspectedTable.getNonPrimaryKeyColumns()).isEmpty()) {
+            return false;
+        }
+
+        return true;
     }
 }

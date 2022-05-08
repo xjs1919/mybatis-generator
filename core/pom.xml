@@ -25,7 +25,7 @@
     <relativePath />
   </parent>
 
-  <groupId>org.mybatis.generator</groupId>
+  <groupId>com.github.xjs1919</groupId>
   <artifactId>mybatis-generator</artifactId>
   <name>MyBatis Generator</name>
   <version>1.4.2-SNAPSHOT</version>
@@ -296,12 +296,13 @@
 
   <modules>
     <module>mybatis-generator-core</module>
-    <module>mybatis-generator-systests-domtests</module>
+<!--    <module>mybatis-generator-systests-domteststests</module>-->
     <module>mybatis-generator-maven-plugin</module>
-    <module>mybatis-generator-systests-common</module>
-    <module>mybatis-generator-systests-mybatis3</module>
-    <module>mybatis-generator-systests-mybatis3-java8</module>
-    <module>mybatis-generator-systests-kotlin</module>
+    <module>mybatis-code-generator-demo</module>
+<!--    <module>mybatis-generator-systests-common</module>-->
+<!--    <module>mybatis-generator-systests-mybatis3</module>-->
+<!--    <module>mybatis-generator-systests-mybatis3-java8</module>-->
+<!--    <module>mybatis-generator-systests-kotlin</module>-->
   </modules>
 
   <repositories>

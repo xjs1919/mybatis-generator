@@ -1,5 +1,5 @@
 /*
- *    Copyright 2006-2020 the original author or authors.
+ *    Copyright 2006-2022 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -197,5 +197,20 @@ public class RulesDelegate implements Rules {
     @Override
     public boolean generateJavaClient() {
         return rules.generateJavaClient();
+    }
+
+    @Override
+    public boolean generateBatchUpdate() {
+        return rules.generateBatchUpdate();
+    }
+
+    @Override
+    public boolean generateBatchUpdateSelective() {
+        return rules.generateBatchUpdateSelective();
+    }
+
+    @Override
+    public boolean generateBatchInsert() {
+        return rules.generateBatchInsert();
     }
 }

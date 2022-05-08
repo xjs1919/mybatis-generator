@@ -1,5 +1,5 @@
 /*
- *    Copyright 2006-2021 the original author or authors.
+ *    Copyright 2006-2022 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -29,21 +29,7 @@ import org.mybatis.generator.api.dom.java.Interface;
 import org.mybatis.generator.api.dom.java.JavaVisibility;
 import org.mybatis.generator.codegen.AbstractJavaClientGenerator;
 import org.mybatis.generator.codegen.AbstractXmlGenerator;
-import org.mybatis.generator.codegen.mybatis3.javamapper.elements.AbstractJavaMapperMethodGenerator;
-import org.mybatis.generator.codegen.mybatis3.javamapper.elements.CountByExampleMethodGenerator;
-import org.mybatis.generator.codegen.mybatis3.javamapper.elements.DeleteByExampleMethodGenerator;
-import org.mybatis.generator.codegen.mybatis3.javamapper.elements.DeleteByPrimaryKeyMethodGenerator;
-import org.mybatis.generator.codegen.mybatis3.javamapper.elements.InsertMethodGenerator;
-import org.mybatis.generator.codegen.mybatis3.javamapper.elements.InsertSelectiveMethodGenerator;
-import org.mybatis.generator.codegen.mybatis3.javamapper.elements.SelectByExampleWithBLOBsMethodGenerator;
-import org.mybatis.generator.codegen.mybatis3.javamapper.elements.SelectByExampleWithoutBLOBsMethodGenerator;
-import org.mybatis.generator.codegen.mybatis3.javamapper.elements.SelectByPrimaryKeyMethodGenerator;
-import org.mybatis.generator.codegen.mybatis3.javamapper.elements.UpdateByExampleSelectiveMethodGenerator;
-import org.mybatis.generator.codegen.mybatis3.javamapper.elements.UpdateByExampleWithBLOBsMethodGenerator;
-import org.mybatis.generator.codegen.mybatis3.javamapper.elements.UpdateByExampleWithoutBLOBsMethodGenerator;
-import org.mybatis.generator.codegen.mybatis3.javamapper.elements.UpdateByPrimaryKeySelectiveMethodGenerator;
-import org.mybatis.generator.codegen.mybatis3.javamapper.elements.UpdateByPrimaryKeyWithBLOBsMethodGenerator;
-import org.mybatis.generator.codegen.mybatis3.javamapper.elements.UpdateByPrimaryKeyWithoutBLOBsMethodGenerator;
+import org.mybatis.generator.codegen.mybatis3.javamapper.elements.*;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.XMLMapperGenerator;
 import org.mybatis.generator.config.PropertyRegistry;
 
@@ -94,6 +80,9 @@ public class JavaMapperGenerator extends AbstractJavaClientGenerator {
         addUpdateByPrimaryKeySelectiveMethod(interfaze);
         addUpdateByPrimaryKeyWithBLOBsMethod(interfaze);
         addUpdateByPrimaryKeyWithoutBLOBsMethod(interfaze);
+        addBatchUpdateMethod(interfaze);
+        addBatchUpdateSelectiveMethod(interfaze);
+        addBatchInsertMethod(interfaze);
 
         List<CompilationUnit> answer = new ArrayList<>();
         if (context.getPlugins().clientGenerated(interfaze, introspectedTable)) {
@@ -207,6 +196,32 @@ public class JavaMapperGenerator extends AbstractJavaClientGenerator {
         }
     }
 
+    protected void addBatchUpdateMethod(Interface interfaze) {
+        if (introspectedTable.getRules().generateBatchUpdate()) {
+            AbstractJavaMapperMethodGenerator methodGenerator = new BatchUpdateMethodGenerator();
+            initializeAndExecuteGenerator(methodGenerator, interfaze);
+        }
+    }
+
+    protected void addBatchUpdateSelectiveMethod(Interface interfaze) {
+        if (introspectedTable.getRules().generateBatchUpdateSelective()) {
+            AbstractJavaMapperMethodGenerator methodGenerator = new BatchUpdateSelectiveMethodGenerator();
+            initializeAndExecuteGenerator(methodGenerator, interfaze);
+        }
+    }
+
+    protected void addBatchInsertMethod(Interface interfaze) {
+        if (introspectedTable.getRules().generateBatchInsert()) {
+            AbstractJavaMapperMethodGenerator methodGenerator = new BatchInsertMethodGenerator();
+            initializeAndExecuteGenerator(methodGenerator, interfaze);
+        }
+    }
+
+
+    public List<CompilationUnit> getExtraCompilationUnits() {
+        return Collections.emptyList();
+    }
+
     protected void initializeAndExecuteGenerator(AbstractJavaMapperMethodGenerator methodGenerator,
                                                  Interface interfaze) {
         methodGenerator.setContext(context);
@@ -214,10 +229,6 @@ public class JavaMapperGenerator extends AbstractJavaClientGenerator {
         methodGenerator.setProgressCallback(progressCallback);
         methodGenerator.setWarnings(warnings);
         methodGenerator.addInterfaceElements(interfaze);
-    }
-
-    public List<CompilationUnit> getExtraCompilationUnits() {
-        return Collections.emptyList();
     }
 
     @Override

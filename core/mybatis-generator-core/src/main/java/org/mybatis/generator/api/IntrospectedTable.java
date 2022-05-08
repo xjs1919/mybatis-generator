@@ -96,7 +96,10 @@ public abstract class IntrospectedTable {
         ATTR_MYBATIS3_SQL_PROVIDER_TYPE,
         ATTR_MYBATIS_DYNAMIC_SQL_SUPPORT_TYPE,
         ATTR_KOTLIN_RECORD_TYPE,
-        ATTR_MYBATIS_DYNAMIC_SQL_TABLE_OBJECT_NAME
+        ATTR_MYBATIS_DYNAMIC_SQL_TABLE_OBJECT_NAME,
+        ATTR_BATCH_UPDATE_STATEMENT_ID,
+        ATTR_BATCH_UPDATE_SELECTIVE_STATEMENT_ID,
+        ATTR_BATCH_INSERT_STATEMENT_ID,
     }
 
     protected TableConfiguration tableConfiguration;
@@ -430,6 +433,9 @@ public abstract class IntrospectedTable {
         setBaseColumnListId("Base_Column_List"); //$NON-NLS-1$
         setBlobColumnListId("Blob_Column_List"); //$NON-NLS-1$
         setMyBatis3UpdateByExampleWhereClauseId("Update_By_Example_Where_Clause"); //$NON-NLS-1$
+        setBatchUpdateStatementId("batchUpdate");
+        setBatchUpdateSelectiveStatementId("batchUpdateSelective");
+        setBatchInsertStatementId("batchInsert");
     }
 
     public void setBlobColumnListId(String s) {
@@ -1097,4 +1103,35 @@ public abstract class IntrospectedTable {
     public void setTableType(String tableType) {
         this.tableType = tableType;
     }
+
+    public String getBatchUpdateStatementId() {
+        return internalAttributes
+                .get(InternalAttribute.ATTR_BATCH_UPDATE_STATEMENT_ID);
+    }
+
+    public String getBatchUpdateSelectiveStatementId() {
+        return internalAttributes
+                .get(InternalAttribute.ATTR_BATCH_UPDATE_SELECTIVE_STATEMENT_ID);
+    }
+
+    public String getBatchInsertStatementId() {
+        return internalAttributes
+                .get(InternalAttribute.ATTR_BATCH_INSERT_STATEMENT_ID);
+    }
+
+    public void setBatchUpdateStatementId(String s) {
+        internalAttributes.put(
+                InternalAttribute.ATTR_BATCH_UPDATE_STATEMENT_ID, s);
+    }
+
+    public void setBatchUpdateSelectiveStatementId(String s) {
+        internalAttributes.put(
+                InternalAttribute.ATTR_BATCH_UPDATE_SELECTIVE_STATEMENT_ID, s);
+    }
+
+    public void setBatchInsertStatementId(String s) {
+        internalAttributes.put(
+                InternalAttribute.ATTR_BATCH_INSERT_STATEMENT_ID, s);
+    }
+
 }
